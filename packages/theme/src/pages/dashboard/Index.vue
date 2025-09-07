@@ -110,7 +110,6 @@
 import { ref } from "vue";
 import { useHead } from "@vueuse/head";
 import type { IBoardPrivate, IPost } from "@logchimp/types";
-
 // modules
 import { getPosts } from "../../modules/posts";
 import { getAllBoards } from "../../ee/modules/boards";
