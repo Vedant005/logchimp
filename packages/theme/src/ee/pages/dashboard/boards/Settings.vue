@@ -3,7 +3,7 @@
     <template v-slot:left>
       <Breadcrumbs>
         <BreadcrumbItem to="/dashboard/boards">
-          Boards
+          {{t("dashboard.boards.title")}}
         </BreadcrumbItem>
 
         <template v-if="board?.name">
@@ -21,7 +21,7 @@
       :disabled="updateBoardPermissionDisabled"
       @click="update"
     >
-      Save
+      {{t("dashboard.boards.settings.save")}}
     </Button>
   </DashboardPageHeader>
 
@@ -31,7 +31,7 @@
         <div class="form-column">
           <l-text
             v-model="board.name"
-            label="Name"
+            :label="t('dashboard.boards.settings.name')"
             placeholder="Enter board name"
             :error="boardFieldError"
             @hide-error="hideNameError"
@@ -75,6 +75,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, defineAsyncComponent } from "vue";
 import { useHead } from "@vueuse/head";
+import { useI18n } from "vue-i18n";
 import type { IBoardUpdateRequestBody } from "@logchimp/types";
 
 // modules
@@ -118,9 +119,18 @@ const updateBoardPermissionDisabled = computed(() => {
   return !permissions.includes("board:update");
 });
 
-const boardFieldError = reactive({
-  show: false,
-  message: "",
+const { t } = useI18n();
+
+const slugUrl = computed({
+  get() {
+    return board.url;
+  },
+  set(value) {
+    board.url = value
+      .trim()
+      .replace(/[^\w]+/gi, "-")
+      .toLowerCase();
+  },
 });
 
 function hideNameError(event: FormFieldErrorType) {
