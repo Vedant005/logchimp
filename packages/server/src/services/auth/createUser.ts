@@ -158,7 +158,7 @@ const createUser = async (
 
 export { createUser };
 
-function generateUniqueUsername(baseUsername: string): string {
+export function generateUniqueUsername(baseUsername: string): string {
   const suffix = nanoid(8);
   const separator = "_";
 
